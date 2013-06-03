@@ -1,0 +1,21 @@
+{% extends 'edit.html' %}
+
+{% block center %}
+<form id="page" name="page" method="post" action="/new">
+<div class="ui-layout-center ui-layout-center-edit">
+<div class="edit-page-head">
+    <input id="name" class="in-edit" name="name" value="New page"/>
+</div>
+<div class="edit-panel">
+    <ul class="edit-tool">
+        <li><a class="btn b"></a></li>
+        <li class="razdel"></li>
+        <li><a class="btn c"></a></li>
+    </ul>
+</div>
+<div class="edit-page-content">
+    <textarea id="editor" name="content" rows="10"></textarea>
+</div>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Documentation</title>
+<link rel="stylesheet" href="/static/css/base.css" />
+<script type="text/javascript" src="/static/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/static/jquery.layout-latest.js"></script>
+<script>
+(function ( $ ) {
+    $.fn.tree = function( options ) {
+
+		// Default Settings
+		var settings = $.extend({
+			'expandIconClass' : 'closed',
+			'contractIconClass' : 'open',
+			'classPrefix' : 'tree_',
+		}, options);
+
+		return this.each(function() {
+			$(this).find('ul').hide();
+
+			$(this).find('li').each(function() {
+				if($(this).children('ul').length > 0){
+					$(this).prepend($('<div />', {'class': settings.classPrefix + "toggle " + settings.expandIconClass}));
+                    $(this).parent('ul').css({'padding-left':'10px'});
+				}else{
+    			    $(this).prepend($('<div />', {'class': 'square'}));
+				}
+			});
+
+			$('.' + settings.classPrefix + 'toggle').click(function() {
+				$(this).parent().children('ul').toggle();
+				$(this).hasClass('open')
+					? $(this).removeClass(settings.contractIconClass).addClass(settings.expandIconClass)
+					: $(this).removeClass(settings.expandIconClass).addClass(settings.contractIconClass);
+			});
+		});
+	};
+}) ( jQuery );
+</script>
+{% block head %}
+<script type="text/javascript">
+$(document).ready(function () {
+    $('#tree').tree();
+    $('.current').parents("li").find('.closed').each(function(i){
+        el = $(this).parent().children('span').children('.current');
+        console.log( el )
+        if ( el.length == 0){
+            $(this).removeClass('closed').addClass('open');
+
+        }
+    });
+
+    $('a.current').parents('ul').slice(0,-1).show();
+    $('body').layout({
+		defaults:{
+
+        },
+        north: {
+        	closable: false,
+        	resizable: false,
+        	spacing_open: 0
+		},
+		west: {
+			size: 250,
+			closable: false,
+			resizable: true,
+			livePaneResizing: true,
+			spacing_open: 6,
+			min_width: 100
+		},
+		center:{
+			slidable: true
+		}
+	});
+});
+</script>
+{% endblock %}
+</head>
+<body>
+
+<div class="ui-layout-north">
+    <div class="pointer">
+    {% block lineurl %}
+        <a href="/">Dashboard</a>
+    {% endblock %}
+    </div>
+    <ul class="page-panel">
+{% block action %}
+    <li><a href="/new">Add project</a></li>
+{% endblock %}
+    </ul>
+</div>
+
+
+{% block center %}
+<div class="ui-layout-center">
+<div class="page-head">
+    <h2 class="page-name">Dashboard</h2>
+    <hr class="line"/>
+</div>
+<div class="page-content">
+{% if page %}
+    <ul>
+    {% for e in page %}
+        <li><a href="/view/{{ e.pk }}">{{ e.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% endif %}
+</div>
+</div>
+{% endblock %}
+
+
+{% block west %}
+<div class="ui-layout-west">
+    <div style="padding-left:0px;">
+    {% if tree %}
+        {{ tree|safe|escape }}
+    {% else %}
+    <ul id="tree">
+        <li style="padding-left:10px;">No projects&nbsp;-&nbsp;<a href="/add">Add project</a></li>
+    </ul>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}
+</body>
+</html>
+
+

@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+
+{% block lineurl %}
+    <a href="/">Dashboard</a> {{ lurl|safe|escape }}
+{% endblock %}
+
+{% block action %}
+<li ><div style=" width: 16px;float: left;height: 16px;background: url(/static/img/reply.gif) no-repeat left top;"></div><a href="/edit/{{ page.pk }}" style="float: left;">Edit</a></li>
+<li ><div style=" width: 16px;float: left;height: 16px;background: url(/static/img/action_add.gif) no-repeat left top;"></div><div style="float: left;"><a href="/add/{{ page.pk }}">Add</a></div></li>
+{% endblock %}
+
+{% block center %}
+<div class="ui-layout-center">
+<div class="page-head">
+    <h2 class="page-name">{{ page.name }}</h2>
+    <hr class="line"/>
+</div>
+<div class="page-content">
+    {{ page.content|safe|escape }}
+</div>
+</div>
+{% endblock %}

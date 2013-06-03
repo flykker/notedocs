@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+
+{% block head %}
+<script src="/static/ckeditor/ckeditor.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $('body').layout({
+    	defaults:{
+        },
+        north: {
+        	closable: false,
+        	resizable: false,
+        	spacing_open: 0
+		},
+
+		center:{
+			slidable: true
+		}
+	});
+
+
+    CKEDITOR.replace( 'editor', {
+        resize_enabled:false,
+    	removePlugins: 'magicline',
+        extraPlugins: 'table2',
+		toolbar: [
+			[ 'Undo', 'Redo', '-', 'Bold', 'Italic', 'Underline', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink' ],
+			[ 'Table','table2', 'TextColor', 'BGColor' ]
+		],
+        width: '100%'
+	});
+
+    CKEDITOR.instances.editor.on('instanceReady', function(){
+        var cont = CKEDITOR.instances.editor.ui.space('contents');
+        var h = $('div.ui-layout-center').height()-cont.$.offsetTop-20;
+        cont.$.style.height = h + 'px';
+    })
+
+});
+</script>
+{% endblock%}
+
+{% block action %}
+    <li onclick="document.forms.page.submit();"><div style=" width: 16px;float: left;height: 16px;background: url(/static/img/action_check.gif) no-repeat left top;"></div><div style="float: left;">Save</div></li>
+{% endblock %}
+{% block west %}{% endblock %}
+{% block center %}
+<form id="page" name="page" method="post" action="/save">
+<input id="page_id" name="page_id" type="hidden" value="{{ page.pk}}"/>
+<div class="ui-layout-center ui-layout-center-edit">
+<div class="edit-page-head">
+    <input id="name" class="in-edit" name="name" value="{{ page.name }}"/>
+</div>
+<div class="edit-panel">
+    <ul class="edit-tool">
+        <li><a class="btn b"></a></li>
+        <li class="razdel"></li>
+        <li><a class="btn c"></a></li>
+    </ul>
+</div>
+<div class="edit-page-content">
+    <textarea id="editor" name="content" rows="10">{{ page.content }}</textarea>
+</div>
+</div>
+</form>
+{% endblock %}
+
+
