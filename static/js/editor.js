@@ -78,6 +78,7 @@ Ext.HtmlEditor = Ext.extend(Ext.util.Observable, {
                 })
                 me.hide();
                 me.state.save();
+                //console.log(me)
             })
 
             Ext.get('ica').on("click", function(){
