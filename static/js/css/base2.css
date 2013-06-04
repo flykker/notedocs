@@ -43,8 +43,8 @@ body{
 }
 
 .page-content table{border-collapse:collapse;}
-.page-content table td{ padding:5px 5px; border:1px solid #ccc; min-width:50px; vertical-align:top;}
-.page-content .head td{background-color: #EEE; font-weight: bold; color: #006DAF;}
+.page-content table td{ padding:5px 5px; border:1px solid #999; min-width:150px; vertical-align:top; color:#006DAF;}
+
 .ui-layout-west{
 	background: #f7f7f7;
 	color: #777;
@@ -150,7 +150,7 @@ margin-top: 7px;border-radius: 4px;margin-left:6px;cursor:pointer;
     top: 10px;
     background-position: -405px -96px;
 }
-.li-div{padding:5px 5px 5px 5px;background-color:#fcfcfc; border-bottom:1px solid #c9c9c9;display:none;}
+.li-div{padding:5px 5px 15px 5px;background-color:#fcfcfc; border-bottom:1px solid #c9c9c9;display:none;}
 .ul{margin: 0px;
 padding: 0px;
 padding-left: 13px;

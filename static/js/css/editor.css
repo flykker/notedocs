@@ -13,7 +13,6 @@
 .unorderedlist{background-position:4px -1692px;}
 .outdent{ background-position:4px -1372px; }
 .indent{ background-position:4px -1340px; }
-.goback { background-position:4px -2812px; }
 .save{ background-position:4px -2235px; }
 .left{ background-position:4px -1468px; }
 .center{ background-position:4px -1436px; }
@@ -23,7 +22,7 @@
 .image{ background-position:4px -1244px; }
 .table{ background-position:4px -2588px; }
 .body table{border-collapse:collapse; margin:10px 0px; }
-.body table td{ padding:5px 5px; border:1px solid #ccc; min-width:50px; vertical-align:top;}
+.body table td{ padding:5px 5px; border:1px solid #999; min-width:150px; vertical-align:top; color:#006DAF;}
 .forecolor{ background-position:4px -540px; }
 .backcolor{ background-position:4px -508px; }
 .removeformat{ background-position:4px -2204px; }
@@ -34,19 +33,3 @@
 .fcolor input{ cursor:pointer; float: left;width: 20px;height: 20px;margin:1px; border:1px solid #ccc;}
 .fcolor input:hover{ border:1px solid #999; }
 .in-image{border:1px solid #999;margin:10px;}
-.editor-menu{
-    border: 1px solid #999;
-    z-index: 10000;
-    display:none;
-    position: absolute;
-    background-color: #FFF;
-    outline:none;
-    padding:7px 1px;
-    cursor:default;
-    background:#fefefe;
-}
-.editor-menu div{padding:5px 15px; font-family:tahoma;font-size:11px; white-space: nowrap;}
-.editor-menu div:hover{background-color:#eee;}
-.head td{background-color: #EEE;
-font-weight: bold;
-color: #006DAF;}
