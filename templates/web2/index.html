@@ -28,8 +28,6 @@
 
     Ext.onReady(function() {
 
-
-
         var tree = new Ext.Tree({
             id:'tree',
             listeners: {
@@ -76,6 +74,7 @@
                 "resize": function(){
                     var b = Ext.get("content");
                     var e = Ext.get("center");
+                    var l = Ext.get("left");
                     b.setStyle({
                         overflow: "auto",
                         position: "absolute",
@@ -83,10 +82,33 @@
                         width: "100%"
                     })
                     tabs.tabResize();
+
+                    if(l.isStyle('display','none')){
+                        l.setStyle({display:'none'});
+                        Ext.get('show-lbar').setStyle({display:"none"});
+                        e.setStyle({left:0+'px', width: Ext.lib.Dom.getViewWidth()+'px'});
+                        Ext.get('show-lbar').setStyle({display:"block"});
+                        Ext.get("lresize").setStyle({left:''})
+                    }
+
                 },
                 "onRender": function(){
                     tabs.initCook();
                     tree.body.setHeight( Ext.get('left').getHeight() - Ext.get('left').child('.top-left').getHeight() )
+                    Ext.get("hide-lbar").on("click", function(){
+                        Ext.get("left").setStyle({display:'none'});
+                        var c = Ext.get("center");
+                        c.setStyle({left:0+'px', width: Ext.lib.Dom.getViewWidth()+'px'});
+                        Ext.get('show-lbar').setStyle({display:"block"});
+                        Ext.get("lresize").setStyle({left:''})
+                    })
+
+                    Ext.get("show-lbar").on("click", function(){
+                        Ext.get("left").setStyle({display:'block'});
+                        Ext.get('show-lbar').setStyle({display:"none"});
+                        app.view.setBody();
+                        Ext.get("lresize").setStyle({left:''})
+                    })
                 }
             },
             items: [{
@@ -107,8 +129,10 @@
 
 {% block west %}
 <div id="left" class="ui-layout-west">
+    <div id="lresize" class="l-resize"></div>
     <div class="top-left">
         <b>#</b><b style="color: #c2c2c2;margin-left: 2px; ">Note</b><b style="color: #08f;">Docs</b>
+        <div id="hide-lbar" class="hide-button"></div>
     </div>
 
     <div id="tree">
@@ -134,7 +158,8 @@
 <div id="center" class="ui-layout-center">
 
     <div id="tab" style="border-bottom: 1px solid #999;background-color: #f8f8f8;height: 31px;border-top: 1px solid #FFF;padding-left: 0px;visibility: visible;">
-		<div id="menu">
+		<div id="show-lbar" class="show-button"></div>
+        <div id="menu">
             <div class="sett">
     			<div class="set"></div>
     			<div class="set" style="margin-top:3px;"></div>

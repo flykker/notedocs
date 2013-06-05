@@ -78,6 +78,7 @@ Ext.Tabs = Ext.extend(Ext.util.Observable, {
 
         this.content.on('contextmenu', function(ev){
             ev.preventDefault();
+            if(self.activepage.id == "pagedash"){ return false;}
             el.setTop(ev.getPageY()).setLeft(ev.getPageX() - self.content.getLeft());
 
             el.show().focus();

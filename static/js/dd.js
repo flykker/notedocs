@@ -50,28 +50,47 @@ Ext.DD = Ext.extend(Ext.util.Observable, {
         document.body.onselectstart = null
         this.fireEvent("end", ev);
     },
-
+    pos: {x:null,y:null},
     onMove:function(ev,t){
 
         if(this.el.isDrag){
 
-            if(this.horiz){
+            if(this.vert){
                 var y = ev.getPageY()-this.bCoord.y;
                 var ybot = y + this.el.getHeight();
+                if(this.pos.y == null){
+                    this.pos.y = y;
+                }
                 if(this.maxT){
-                    //console.log(y >= this.maxT, ybot <= this.maxB)
                     if( y >= this.maxT && ybot <= this.maxB){
                         this.el.setTop(y);
+                        this.pos.y=y;
                     }
                 }else{
                     this.el.setTop(y);
+                    this.pos.y=y;
                 }
             }
-            var x = ev.getPageX()-this.bCoord.x;;
-            if(this.vert){
-                this.el.setLeft(ev.getPageX());
+
+            if(this.horiz){
+                var x = ev.getPageX()-this.bCoord.x;
+                var xr = x + this.el.getWidth();
+                if(this.pos.x == null){
+                    this.pos.x = x;
+                }
+                if(this.maxL || this.maxR){
+                    if( x >= this.maxL && xr <= this.maxR ){
+                        this.el.setLeft(x);
+                        this.pos.x = x;
+                    }
+                }else{
+                    this.el.setLeft(x);
+                    this.pos.x=x;
+                }
             }
-            this.fireEvent("drag", ev, {x:x,y:y});
+
+            this.fireEvent("drag", ev, {x:this.pos.x,y:this.pos.y});
+
         }
     }
 })

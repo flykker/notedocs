@@ -24,6 +24,10 @@ Ext.Layout = Ext.extend(Ext.util.Observable, {
 
         this.initEls();
         this.setBody();
+        if(this.els.left.w > 0){
+            this.leftResize();
+        }
+
     },
 
     initEls: function(){
@@ -137,6 +141,37 @@ Ext.Layout = Ext.extend(Ext.util.Observable, {
         delete element.height; delete element.width;
 
         return element;
+    },
+
+    leftResize: function(){
+        var me = this;
+        var lr = Ext.get("lresize");
+        var dd = new Ext.DD({
+            id:"lresize",
+            vert:false,
+            maxR:400,
+            maxL:210,
+            listeners:{
+                "start":function(ev){
+                    Ext.getBody().on("mouseup", function(){
+                        if( dd.el.isDrag ){
+                            dd.el.isDrag = false;
+                        }
+                    }, null, {single:true})
+                },
+                "drag": function(ev, pos){
+                    var x = pos.x+2;
+                    Ext.get("left").setWidth(x);
+                    Ext.get("center").setLeft(x);
+                    Ext.get("center").setWidth(Ext.lib.Dom.getViewWidth() - x);
+                    me.els.center.l = Ext.get("left").getWidth();
+                    if(me.els.left){
+                        me.els.left.w = Ext.get("left").getWidth();
+                    }
+
+                }
+            }
+        })
     }
 
 });

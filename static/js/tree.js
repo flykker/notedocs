@@ -37,7 +37,7 @@ Ext.Tree = Ext.extend(Ext.util.Observable, {
             id:'scroll',
             maxT: 35,
             maxB: false,
-            vert:false,
+            horiz:false,
             listeners:{
                 "start":function(ev){
                     me.scD = this.el.getTop();
@@ -54,9 +54,6 @@ Ext.Tree = Ext.extend(Ext.util.Observable, {
                     var d = me.scD - y;
                     me.scD = y;
                     me.treeScroll(d);
-                },
-                "end":function(){
-
                 }
             }
         })
