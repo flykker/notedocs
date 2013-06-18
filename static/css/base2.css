@@ -5,27 +5,10 @@ body{
 .layout{ overflow:hidden; }
 
 .page-name{
-    float:left;
     margin:0px;
     color:#444;
 }
-.page-panel{
-    float:right;
-    list-style: none;
-    margin:0px;
-}
-.page-panel li{
-    float:left;
-    list-style: none;
-    padding:7px 10px;
-    padding-top:5px;
-}
-.page-panel li:hover{
-    background-color:#3c72ff;
-    color:white;
-    cursor:pointer;
-}
-.page-panel a{ color:#ddd;}
+
 .page-head{
     padding:20px !important;
     padding-top:20px !important;
@@ -62,7 +45,6 @@ body{
 .pointer a:hover{ text-decoration:underline; }
 a{ cursor:pointer; text-decoration:none; }
 .line{
-    //width:100%;
     border:none;
     border-bottom:1px solid #eee;
     margin:0px 20px;
@@ -119,13 +101,13 @@ height: 4px;
 line-height: 0; background:#888;float:left;margin-right: 7px;
 margin-top: 7px;border-radius: 4px;margin-left:6px;cursor:pointer;
 }
-.sett{float:left; padding:2px; margin:5px;border:1px solid #f8f8f8; border-radius:3px; cursor: pointer;margin-top:4px;}
+.sett{float:left; padding:2px; margin:5px;border:1px solid #f8f8f8; cursor: pointer;margin-top:4px;}
 .sett:hover{ border-color: #ccc; }
 .setthover{ border-color: #ccc; }
 .setthover div{background-color: #777;}
 .sett:hover div{background-color: #777;}
-.set { width:15px;height:3px;border-radius:2px;background-color:#999; margin:2px;}
-.li{font-size: 12px;border-bottom: 1px solid #c9c9c9; padding:4px 10px; color:#999; line-height: 25px; cursor: pointer;position: relative;}
+.set { width:15px;height:3px;background-color:#999; margin:2px;}
+.li{font-size: 12px;border-bottom: 1px solid #c9c9c9; padding:4px 10px; color:#999; line-height: 25px; cursor: pointer;position: relative; white-space:nowrap;}
 .uli a{ cursor: pointer; color:#777 ; }
 .uli a:hover{color:#000;text-decoration: underline;}
 .uli ul{display:none;}
@@ -156,7 +138,7 @@ padding: 0px;
 padding-left: 13px;
 }
 .tree{padding:0px;}
-.tab_cur{
+.tab-active{
     position:relative;
     float: left;
     padding: 5px 10px;
@@ -168,7 +150,7 @@ padding-left: 13px;
     font-size: 12px;color:#08f;
     cursor:pointer;
 }
-.tabs{
+.tab{
     float: left;
     cursor:pointer;
     padding: 5px 10px;
@@ -176,12 +158,11 @@ padding-left: 13px;
     border-bottom: none;
     margin-top: 5px;
     padding-top: 6px;
-    border-left-width: 0px;
+    //border-left-width: 0px;
     font-size: 12px;color:#08f;
     position:relative;
     margin-right: -1px;
 }
-.dashtab{ border-left-width:1px; }
 .active{display:block !important;}
 .content{display:none;}
 .close{
@@ -267,3 +248,32 @@ width: 20px;
 height: 25px;
 float: left; cursor:pointer; display:none;}
 .l-resize{ position:absolute; top:35px; width:2px; bottom:0px; cursor:e-resize; right:-1px; z-index:400;}
+.login{border:10px solid #888; display:table; position:relative; padding:50px 100px; padding-top:20px; background-color:#eee;}
+.logo{ padding: 4px 3px 3px 20px;margin-bottom:20px;font-family: Tahoma;font-size: 21px;color: #777;font-weight: bold;border-bottom: 1px solid #DDD;}
+.login .label{font-size:11px ;font-family: tahoma;padding:5px;line-height: 17px;}
+.login .submit{border: 1px solid #0076DD;font-size:11px ;font-family: tahoma;
+padding: 5px 16px;
+cursor: pointer;
+background-color: #5AAAF0;
+color: #FFF;}
+.delete{ margin-right:5px; display:block; width:16px; height:16px; background:url(/static/img/icons2.png) no-repeat; background-position: -455px 0px; }
+.goprojects{float: left;
+font-size: 13px;
+font-weight: bold;
+line-height: 31px;}
+.goprojects a{color:#333;}
+.msg{ min-width:250px; position:absolute; right:50px; top:20px; display:none;}
+.msg .green{ border: 1px solid #51A351;
+padding: 10px 15px;
+font-size: 13px;
+background: #CAFFCA; }
+.msg .red{ border: 1px solid red;
+padding: 10px 15px;
+font-size: 13px;
+background: #FDD5D5; }
+.hide-li{right: -1px;
+width: 29px;
+height: 25px;
+position: absolute;
+background: #F8F8F8;
+border-right: 1px solid #DDD;}

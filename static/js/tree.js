@@ -1,6 +1,4 @@
-/*
-http://jsfiddle.net/aeX6L/
-*/
+
 Ext.Tree = Ext.extend(Ext.util.Observable, {
     id:null,
     el: null,
@@ -151,9 +149,8 @@ Ext.Tree = Ext.extend(Ext.util.Observable, {
 
     onClick: function(e,t){
         var e = Ext.get(t);
-        var id = e.id.split('view')[1];
         this.setActive(e.id);
-        this.fireEvent('select', e, id);
+        this.fireEvent('select', e);
     },
 
     initEls: function(){
@@ -167,7 +164,7 @@ Ext.Tree = Ext.extend(Ext.util.Observable, {
             ev.preventDefault();
             trmenu.setTop(ev.getPageY()).setLeft(ev.getPageX());
             trmenu.show().focus();
-            var id = this.id.split('pr')[1];
+            var id = this.id.split('project')[1];
             edit.on("click", function(){ trmenu.hide(); window.location="/edit/" + id })
             add.on("click", function(){ trmenu.hide(); window.location="/add/" + id })
             del.on("click", function(){ trmenu.hide(); window.location="/del/" + id })
@@ -220,7 +217,7 @@ Ext.Tree = Ext.extend(Ext.util.Observable, {
                     t.toggleClass('triangle-open');
                     tn.tgl();
                 }
-            };
+            }
             var ep = Ext.get( fp.findParent('div.li-div') ).prev();
 
             if(!ep.child('div.li_tog').hasClass('toggle_li')){

@@ -1,35 +1,48 @@
-from django.shortcuts import render_to_response, redirect
-from django.http import HttpResponseRedirect
-from models import Page, PageForm
+from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect, HttpResponse
+from models import Page
+from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
+from django.contrib.auth.models import User
 
+@login_required(login_url='/login')
 def home(request):
     p = Page.objects.filter(parent=None);
     node = tree(None, True);
-    return render_to_response('web2/index.html', {'tree':node, 'page':p});
+    return render_to_response('web2/index.html', {'tree':node, 'page':p}, context_instance=RequestContext(request));
 
+@login_required(login_url='/login')
+def manage(request):
+    return render_to_response('web2/manage.html', context_instance=RequestContext(request));
+
+@login_required(login_url='/login')
 def view(request, page_id):
     page = Page.objects.get(id=page_id)
     node = tree(None, False, page);
     lurl = page.get_lurl();
     return render_to_response('web2/view.html', {'page':page, 'tree':node, 'lurl':lurl });
 
+@login_required(login_url='/login')
 def edit(request, page_id):
     page = Page.objects.get(id=page_id)
-    return render_to_response('web2/edit.html', {'page':page});
+    return render_to_response('web2/edit.html', {'page':page}, context_instance=RequestContext(request));
 
+@login_required(login_url='/login')
 def new(request):
     if request.method == 'POST':
         p = Page.objects.create(name=request.POST['name'], content=request.POST['content']);
         return HttpResponseRedirect('/');
-    return render_to_response('web2/new.html');
+    return render_to_response('web2/new.html', context_instance=RequestContext(request));
 
+@login_required(login_url='/login')
 def add(request, page_id):
     if request.method == 'POST':
         page = Page.objects.get(id=page_id);
         p = Page.objects.create(parent=page,name=request.POST['name'], content=request.POST['content']);
         return HttpResponseRedirect('/');
-    return render_to_response('web2/add.html');
+    return render_to_response('web2/add.html', context_instance=RequestContext(request));
 
+@login_required(login_url='/login')
 def save(request):
     if request.method == 'POST':
         page_id = request.POST['page_id'];
@@ -39,6 +52,7 @@ def save(request):
         page.save();
     return HttpResponseRedirect('/');
 
+@login_required(login_url='/login')
 def delete(request, page_id):
     page = Page.objects.get(id=page_id);
     page.delete();
@@ -51,12 +65,12 @@ def tree(parent, id, cur=None):
         if e.parent == None:
             par = Page.objects.filter(parent=e.pk);
             if par:
-                node += '<div id="pr'+ str(e.pk) +'" class="li toggle_li"><div class="li_tog"></div>'+e.name+'</div>';
+                node += '<div id="project'+ str(e.pk) +'" class="li toggle_li"><div class="hide-li"></div><div class="li_tog"></div>'+e.name+'</div>';
                 node += '<div class="li-div">'
                 node += tree(e.pk, True, cur);
                 node+= '</div>';
             else:
-                node += '<div id="pr'+ str(e.pk) +'" class="li toggle_li">'+e.name+'</div>';
+                node += '<div id="project'+ str(e.pk) +'" class="li toggle_li"><div class="hide-li"></div>'+e.name+'</div>';
 
         else:
             tr = "";
@@ -70,10 +84,33 @@ def tree(parent, id, cur=None):
             cls="cube";
             if par:
                 cls="triangle";
-            node += '<li class="uli" style="font-size:12px;line-height: 20px;list-style-type: none;"><div class="'+cls+'"></div><a id="view'+str(e.pk)+'" '+curr+'>' + e.name + '</a>';
+            node += '<li class="uli" style="font-size:12px;line-height: 20px;list-style-type: none;"><div class="'+cls+'"></div><a id="tree'+str(e.pk)+'" '+curr+'>' + e.name + '</a>';
 
             if par:
                 node += tree(e.pk, False, cur);
             node += '</li>';
             node += '</ul>';
     return node;
+
+@login_required(login_url='/login')
+def api(request):
+    if request.method == "GET":
+        if request.GET.get('method'):
+            method = request.GET.get('method');
+            if method == "users":
+                users = User.objects.all();
+                return render_to_response('web2/api/users.html',{'users':users}, context_instance=RequestContext(request));
+            if method == "users.add":
+                u = request.GET.get('username');
+                m = request.GET.get('mail');
+                p = request.GET.get('password');
+                User.objects.create_user(u, m, p);
+                return HttpResponse('{"request":"User add."}')
+            if method == "users.del":
+                id = request.GET.get('userid');
+                user = User.objects.get(pk=id);
+                user.delete();
+                return HttpResponse('{"request":"User delete."}')
+    return HttpResponse('{"error":"Error. Unknow method."}')
+
+

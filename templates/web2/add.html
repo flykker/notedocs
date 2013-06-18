@@ -3,6 +3,7 @@
 {% block center %}
 <div id="center" class="ui-layout-center ui-layout-center-edit">
     <form id="page" name="page" method="post" action=".">
+    {% csrf_token %}
         <div class="edit-page-head">
             <input id="name" class="in-edit" name="name" value="New page"/>
         </div>

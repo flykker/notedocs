@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Documentation</title>
+<title>Notedocs</title>
 <link rel="stylesheet" href="/static/css/base2.css" />
 <script type="text/javascript" src="/static/js/ext34/ext-base.js"></script>
 <script type="text/javascript" src="/static/js/ext34/ext-core.min.js"></script>
@@ -23,106 +23,7 @@
 <script type="text/javascript" src="/static/js/cookie.js"></script>
 <script type="text/javascript" src="/static/js/tabs.js"></script>
 <script type="text/javascript" src="/static/js/tree.js"></script>
-<script type="text/javascript">
-    Ext.ns('app');
-
-    Ext.onReady(function() {
-
-        var tree = new Ext.Tree({
-            id:'tree',
-            listeners: {
-                "select": function(e, id){
-                    var tab = tabs.add(e,id);
-                    if(tab) {
-                        tabs.setActiveTab(tab, id);
-                    }
-                }
-            }
-        });
-
-        var tabs = app.tabs = new Ext.Tabs({
-            id: "doctab",
-            active: 'dashtab',
-            content: 'content',
-            listeners: {
-                "click": function(e){
-                    tree.setActive('view'+e.id.split('tab')[1]);
-                    tree.showActive();
-                }
-            }
-        })
-
-        var menu = Ext.get("menu").on("click", function(){
-            var e = this.child('.sett');
-            var m = this.child('.menu');
-            if( !e.hasClass("setthover") ){
-                e.toggleClass("setthover");
-            }
-            m.show();
-            m.focus();
-            m.on('blur', function(){
-                if( e.hasClass("setthover") ){
-                    e.toggleClass("setthover");
-                }
-                m.hide();
-
-            })
-        })
-
-        app.view = new Ext.Layout({
-            listeners: {
-                "resize": function(){
-                    var b = Ext.get("content");
-                    var e = Ext.get("center");
-                    var l = Ext.get("left");
-                    b.setStyle({
-                        overflow: "auto",
-                        position: "absolute",
-                        height: (e.getHeight() - tabs.el.getHeight() ) + "px",
-                        width: "100%"
-                    })
-                    tabs.tabResize();
-
-                    if(l.isStyle('display','none')){
-                        l.setStyle({display:'none'});
-                        Ext.get('show-lbar').setStyle({display:"none"});
-                        e.setStyle({left:0+'px', width: Ext.lib.Dom.getViewWidth()+'px'});
-                        Ext.get('show-lbar').setStyle({display:"block"});
-                        Ext.get("lresize").setStyle({left:''})
-                    }
-
-                },
-                "onRender": function(){
-                    tabs.initCook();
-                    tree.body.setHeight( Ext.get('left').getHeight() - Ext.get('left').child('.top-left').getHeight() )
-                    Ext.get("hide-lbar").on("click", function(){
-                        Ext.get("left").setStyle({display:'none'});
-                        var c = Ext.get("center");
-                        c.setStyle({left:0+'px', width: Ext.lib.Dom.getViewWidth()+'px'});
-                        Ext.get('show-lbar').setStyle({display:"block"});
-                        Ext.get("lresize").setStyle({left:''})
-                    })
-
-                    Ext.get("show-lbar").on("click", function(){
-                        Ext.get("left").setStyle({display:'block'});
-                        Ext.get('show-lbar').setStyle({display:"none"});
-                        app.view.setBody();
-                        Ext.get("lresize").setStyle({left:''})
-                    })
-                }
-            },
-            items: [{
-                pos: 'left',
-                width: 230,
-                el: 'left'
-            },{
-                pos: 'center',
-                el: 'center'
-            }]
-        });
-
-    });
-</script>
+<script type="text/javascript" src="/static/js/index.js"></script>
 {% endblock %}
 </head>
 <body>
@@ -138,26 +39,20 @@
     <div id="tree">
     {% if tree %}
         {{ tree|safe|escape }}
-    {% else %}
-    <ul>
-        <li style="padding-left:10px;">No projects&nbsp;-&nbsp;<a href="/add">Add project</a></li>
-    </ul>
     {% endif %}
-
-</div>
-<div id="treemenu" class="treemenu" tabindex="-1">
-        <a><div id="edittree">Редактировать</div></a>
-        <a><div id="addtree">Добавить страницу</div></a>
+    </div>
+    <div id="treemenu" class="treemenu" tabindex="-1">
+        <div id="edittree">Редактировать</div>
+        <div id="addtree">Добавить страницу</div>
         <div style="padding:0px; margin:5px 0px; border-top:1px solid #eee;"></div>
-        <a><div id="deltree">Удалить проект</div></a>
+        <div id="deltree">Удалить проект</div>
         </div>
     </div>
 {% endblock %}
 
 {% block center %}
 <div id="center" class="ui-layout-center">
-
-    <div id="tab" style="border-bottom: 1px solid #999;background-color: #f8f8f8;height: 31px;border-top: 1px solid #FFF;padding-left: 0px;visibility: visible;">
+    <div id="tab" style="border-bottom: 1px solid #999;background-color: #f8f8f8;height: 31px;border-top: 1px solid #FFF;padding-left: 0px;">
 		<div id="show-lbar" class="show-button"></div>
         <div id="menu">
             <div class="sett">
@@ -167,36 +62,34 @@
     		</div>
             <div class="menu" tabindex="-1">
                 <a href="/new"><div>Добавить проект</div></a>
+                <a href="/manage"><div>Управление notedocs</div></a>
+                <a href="/logout" ><div style="border-top:1px solid #eee;">Выход</div></a>
             </div>
-            </div>
-		<div id="doctab" class="doctab">
-            <div id="dashtab" class="dashtab tab_cur">Dashboard</div>
         </div>
+		<div id="doctab" class="doctab"></div>
         <div id="tabhide" class="tab-hide"></div>
         <div id="tablist" class="tab-list">
             <div id="tabclose" style="border-top: 1px solid #EEE;color:#ddd;">Закрыть все вкладки</div
         </div>
 	</div>
+    <div id="content" class="">
+        <div id="pagedash" class="content">
+            <div class="page-head">
+                <h2 class="page-name">Dashboard</h2>
+            </div>
+            <hr class="line"/>
+            <div class="page-content ">
+                {% if page %}
+                <ul>
+                {% for e in page %}
+                    <li><a href="#">{{ e.name }}</a></li>
+                {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+    </div>
+</div>
 
-<div id="content" class="redactor_editor">
-<div id="pagedash" class="content active">
-<div class="page-head">
-    <h2 class="page-name">Dashboard</h2>
-</div>
-<hr class="line"/>
-<div class="page-content redactor_editor">
-    {% if page %}
-    <ul>
-    {% for e in page %}
-        <li><a href="#">{{ e.name }}</a></li>
-    {% endfor %}
-    </ul>
-{% endif %}
-</div>
-</div>
-</div>
-
-</div>
 <div id="context" class="context" tabindex="-1">
     <div id="pageedit">Редактировать страницу</div>
     <div id="pageadd">Добавить страницу</div>
@@ -204,7 +97,6 @@
     <div id="pagedel">Удалить страницу</div>
 </div>
 {% endblock %}
-
 
 </body>
 </html>
