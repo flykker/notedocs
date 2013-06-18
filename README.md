@@ -13,7 +13,7 @@ Requires
 2. Django 1.3
 
 
-Install
+Install and run
 -------
 1. Get notedocs from stable version from https://github.com/flykker/notedocs/archive/master.zip
 2. Unzip to /path/... and go to the create path
