@@ -1,5 +1,11 @@
-notedocs
-========
+Project Notedocs
+================
+
+Demo
+----
+http://flykker.pythonanywhere.com/
+
+Login:demo and Password:demo
 
 Requires
 --------
