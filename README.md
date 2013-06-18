@@ -17,7 +17,7 @@ Install
 -------
 1. Get notedocs from stable version from https://github.com/flykker/notedocs/archive/master.zip
 2. Unzip to /path/... and go to the create path
-3. python manage.py syncdb
+3. Modify settings.py - database and python manage.py syncdb
 4. python manage.py runserver 0.0.0.0:80
 
 
