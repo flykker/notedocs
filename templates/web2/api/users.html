@@ -1,0 +1,55 @@
+<style>
+    #pageuser{ margin:20px;font-size:13px; }
+    #pageuser .active{ display:block !important; }
+    #pageuser .page{ display:none; }
+    #pageuser .user{ margin-bottom:5px; }
+    #pageuser .user div{ margin-right:7px; width:16px; height:16px; float:left; background: url(/static/img/icons2.png) no-repeat; background-position: -168px 1px; }
+    #pageuser .page table{ border-collapse:collapse; }
+    #pageuser .page table td {
+        padding: 5px 5px;
+
+        vertical-align: top;
+        border: none;
+        min-width:20px;
+    }
+    #pageuser .lu th {
+        padding: 5px 5px;
+        vertical-align: top;
+        border-bottom:3px solid #888;
+        text-align:left;
+    }
+    #pageuser .lu tr:hover td, #pageuser .page tr:hover a{
+        background-color: #8DC2F1;
+        color: #FFF;
+        cursor:pointer;
+    }
+    #pageuser .au td{ vertical-align:middle !important; }
+    #uaddpage button {border: 1px solid #0076DD;font-size:11px ;font-family: tahoma;
+padding: 5px 16px;
+cursor: pointer;
+background-color: #5AAAF0;
+color: #FFF;}
+    #uaddpage input{ border:1px solid #ccc; padding:4px 5px; min-width:200px; }
+</style>
+<div id="pageuser">
+    <div id="ulistpage" class="page">
+        <table class="lu" width="100%">
+            <tr><th style="width:5px;"><div class="user"><div></th><th>Имя пользователя</th><th>Пользователь</th><th>Email</th><th>Действия</th></tr>
+            {% for user in users %}
+                <tr><td><div class="user"><div></td><td>{{ user.username }}</td><td>{{ user.username }}</td><td>{{ user.email }}</td><td><a onclick="api.users.del({{user.pk}}); return false;" page="#" class="delete"></a></td></tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="uaddpage" class="page">
+        <form id="uaddform">
+            <table class="au">
+                <tr><td align="right">Username: <font size="4" color="red">*</font></td><td><input name="username"/></td></tr>
+                <tr><td align="right">Email: &nbsp;&nbsp;</td><td><input name="mail"/></td></tr>
+                <tr><td align="right">Password: <font size="4" color="red">*</font></td><td><input type="password" name="password"/></td></tr>
+                <tr><td align="right">Confirm password: <font size="4" color="red">*</font></td><td><input type="password" name="confpass"/></td></tr>
+                <tr><td></td><td align="right"><button onclick="api.users.add();return false;">Добавить</button></td></tr>
+            </table>
+            {% csrf_token %}
+        </form>
+    </div>
+</div>

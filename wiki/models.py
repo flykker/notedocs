@@ -1,6 +1,5 @@
 from django.db import models
 from django.forms import ModelForm
-from django.contrib import admin
 
 class Page(models.Model):
     name = models.CharField(max_length=300);
@@ -29,9 +28,11 @@ class Page(models.Model):
     def __str__(self):
         return u'%s' % (self.name)
 
-class PageAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(Page, PageAdmin)
+class Attach(models.Model):
+    name = models.CharField(max_length=300);
+    page = models.ForeignKey(Page);
+    size = models.CharField(max_length=300);
+    comment = models.CharField(max_length=500, null=True, blank=True);
 
 class PageForm(ModelForm):
     class Meta:

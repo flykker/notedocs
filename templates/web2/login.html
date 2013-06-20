@@ -1,0 +1,41 @@
+{% load url from future %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Documentation</title>
+<link rel="stylesheet" href="/static/css/base2.css" />
+<script type="text/javascript" src="/static/js/ext34/ext-base.js"></script>
+<script type="text/javascript" src="/static/js/ext34/ext-core.min.js"></script>
+<script>
+    Ext.onReady(function(){
+        var l = Ext.get('login');
+        var ch = Ext.lib.Dom.getViewWidth()/2 - l.getWidth()/2;
+        var cv = Ext.lib.Dom.getViewHeight()/2 - l.getHeight()/2 - 50;;
+        l.setLeft(ch);
+        l.setTop(cv);
+        Ext.fly(window).on("resize",function(){
+            var l = Ext.get('login');
+            var ch = Ext.lib.Dom.getViewWidth()/2 - l.getWidth()/2;
+            var cv = Ext.lib.Dom.getViewHeight()/2 - l.getHeight()/2 - 50;;
+            l.setLeft(ch);
+            l.setTop(cv);
+        })
+    })
+</script>
+</head>
+<body>
+    <div id="login"  class="login">
+        <div class="logo">
+        <b>#</b><b style="color: #c2c2c2;margin-left: 2px; ">Note</b><b style="color: #08f;">Docs</b>
+        </div>
+        <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+            <div><div class="label">LOGIN:</div ><input style="border:1px solid #bbb;padding:5px 10px;color:grey;" name="username"/></div>
+            <div><div class="label">PASSWORD:</div><input style="border:1px solid #bbb;padding:5px 10px;color:grey;" name="password" type="password"/></div>
+            <div style="text-align:center;margin-top:10px;"><input  class="submit" type="submit" value="LOGIN"/></div>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+    </div>
+</body>
+</html>

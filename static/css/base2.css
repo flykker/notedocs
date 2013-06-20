@@ -276,4 +276,48 @@ width: 29px;
 height: 25px;
 position: absolute;
 background: #F8F8F8;
-border-right: 1px solid #DDD;}
+border-right: 1px solid #DDD;
+}
+.attach{width: 16px;
+height: 16px;
+background: url(/static/img/attach.png);
+float: left;
+margin-top: 7px;
+margin-right: 5px;
+margin-left: 5px;
+cursor: pointer;}
+.attach-list{ display:none; position: absolute; width:100%; top: 0px; background: #FFF;}
+.button {border: 1px solid #0076DD;font-size:11px;font-family: tahoma;
+padding: 5px 16px;
+cursor: pointer;
+background-color: #5AAAF0;
+color: #FFF;}
+.input{ border:1px solid #ccc; padding:4px 5px; min-width:200px; }
+.file{ margin-top:40px; position:absolute;}
+.form-file {
+    position: absolute;
+	-moz-opacity: 0;
+	filter:alpha(0);
+	opacity: 0;
+    z-index: 2;
+    height: 30px;
+    margin-top: 40px;
+    width: 160px;
+}
+.attach-list table td {
+        padding: 5px 5px;
+        vertical-align: top;
+        border: none;
+        min-width:20px;
+}
+.attach-list .lu th {
+    padding: 5px 5px;
+    vertical-align: top;
+    border-bottom:3px solid #888;
+    text-align:left;
+}
+.attach-list .lu tr:hover td, .attach-list .lu tr:hover a{
+    background-color: #8DC2F1;
+    color: #FFF !important;
+    cursor:pointer;
+}

@@ -1,6 +1,7 @@
+import os
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
-from models import Page
+from models import Page, Attach
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.contrib.auth.models import User
@@ -17,10 +18,9 @@ def manage(request):
 
 @login_required(login_url='/login')
 def view(request, page_id):
-    page = Page.objects.get(id=page_id)
-    node = tree(None, False, page);
-    lurl = page.get_lurl();
-    return render_to_response('web2/view.html', {'page':page, 'tree':node, 'lurl':lurl });
+    page = Page.objects.get(id=page_id);
+    a = Attach.objects.filter(page=page);
+    return render_to_response('web2/view.html', {'page':page, 'attach':a }, context_instance=RequestContext(request));
 
 @login_required(login_url='/login')
 def edit(request, page_id):
@@ -92,6 +92,11 @@ def tree(parent, id, cur=None):
             node += '</ul>';
     return node;
 
+def uploaded_file(f):
+    with open('/home/flykker/simpledoc/media/'+f.name, 'wb+') as file:
+        for chunk in f.chunks():
+            file.write(chunk)
+
 @login_required(login_url='/login')
 def api(request):
     if request.method == "GET":
@@ -111,6 +116,21 @@ def api(request):
                 user = User.objects.get(pk=id);
                 user.delete();
                 return HttpResponse('{"request":"User delete."}')
-    return HttpResponse('{"error":"Error. Unknow method."}')
+            if method == "attach.del":
+                id = request.GET.get('id');
+                a = Attach.objects.get(id=id);
+                os.remove("/home/flykker/simpledoc/media/"+a.name);
+                a.delete();
+                return HttpResponse('{"request":"OK."}')
+    if request.method == "POST":
+        if request.POST.get('method'):
+            method = request.POST.get('method');
+            if method == "attach":
+                p = request.POST.get('page');
+                f = request.FILES['file'];
+                uploaded_file(f);
+                Attach.objects.create(name=f.name,page=Page.objects.get(id=p),size=f.size, comment="");
+                return HttpResponse('{"request":"OK."}')
+    return HttpResponse('{"error":"Error."}')
 
 

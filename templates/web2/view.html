@@ -1,9 +1,30 @@
-<div class="page-head">
-    <h2 class="page-name">{{ page.name }}</h2>
-
+<div class="text">
+    <div class="page-head">
+        <div class="attach"></div>
+        <h2 class="page-name">{{ page.name }}</h2>
+    </div>
+    <hr class="line"/>
+    <div class="page-content">
+        {{ page.content|safe|escape }}
+    </div>
 </div>
-<hr class="line"/>
-<div class="page-content">
-    {{ page.content|safe|escape }}
-</div>
+<div class="attach-list">
+    <div class="page-head">
+        <div class="back" style="cursor:pointer;float: left;margin-left:5px;width:25px;height:25px;background: url(/static/img/eico.png) no-repeat 3px -2713px;"></div>
+        <h2 class="page-name">Attachments</h2>
+    </div>
+    <hr class="line"/>
+    <div class="page-content">
+        <table class="lu" width="100%">
+            <tr><th>Имя файла</th><th>Размер</th><th>Комментарий</th><th>Действия</th></tr>
+            {% for a in attach %}
+                <tr><td><a style="border-bottom:1px dashed grey;" target="_blank" href="/media/{{ a.name }}">{{ a.name }}</a></td><td>{{ a.size }}</td><td>{{ a.comment }}</td><td><a onclick="app.api.fileDelete({{ a.pk }})" page="#" class="delete"></a></td></tr>
+            {% endfor %}
+        </table>
+        <div class="file"><button id="fakefile" class="button">Добавить файл ...</button></div>
+        <form method="post" action="/api/" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="file" type="file" class="form-file" onchange="app.api.fileUpload(this,{{ page.pk }})"/>
+        </form>
+    </div>
 </div>
